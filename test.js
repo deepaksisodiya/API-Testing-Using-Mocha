@@ -15,7 +15,7 @@ describe('testing API', function () {
 
     var _id;
 
-    it('user should be saved into the database', function (done) {
+    it('user should be save into the database', function (done) {
         var user = {
             "name" : "piyush",
             "mobile" : "7879544770"
@@ -40,6 +40,16 @@ describe('testing API', function () {
             .send(user)
             .end(function(err, res) {
                 res.body.name.should.equal('deepak');
+                done();
+            });
+    });
+
+    it('user should be delete from the database', function (done) {
+        request('http://localhost:3001')
+            .delete('/users/' + _id)
+            .send()
+            .end(function(err, res) {
+                res.body.status.should.equal('user deleted successfully');
                 done();
             });
     });
