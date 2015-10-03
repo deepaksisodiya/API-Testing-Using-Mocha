@@ -13,6 +13,8 @@ describe('testing API', function () {
         done();
     });
 
+    var _id;
+
     it('user should be saved into the database', function (done) {
         var user = {
             "name" : "piyush",
@@ -22,10 +24,24 @@ describe('testing API', function () {
             .post('/users')
             .send(user)
             .end(function (err, res) {
+                _id = res.body._id;
                 res.body.name.should.equal('piyush');
                 res.body.mobile.should.equal('7879544770');
                 done();
-            })
+            });
+    });
+
+    it('user should be update into the database', function (done) {
+        var user = {
+            "name" : "deepak"
+        };
+        request('http://localhost:3001')
+            .put('/users/' + _id)
+            .send(user)
+            .end(function(err, res) {
+                res.body.name.should.equal('deepak');
+                done();
+            });
     });
 
 });
