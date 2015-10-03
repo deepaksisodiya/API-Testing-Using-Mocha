@@ -6,7 +6,7 @@ var should = require('should');
 var request = require('supertest');
 var mongoose = require('mongoose');
 
-describe('testing API', function () {
+describe('testing APIs', function () {
 
     before(function (done) {
         mongoose.connect('mongodb://localhost:27017/Mocha');
@@ -27,6 +27,16 @@ describe('testing API', function () {
                 _id = res.body._id;
                 res.body.name.should.equal('piyush');
                 res.body.mobile.should.equal('7879544770');
+                done();
+            });
+    });
+
+    it('should get all users from the database', function(done) {
+        request('http://localhost:3001')
+            .get('/users')
+            .send()
+            .end(function (err, res) {
+                (res.body.length > 0).should.be.ok;
                 done();
             });
     });
